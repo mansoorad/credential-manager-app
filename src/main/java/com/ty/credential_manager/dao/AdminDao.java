@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ty.credential_manager.dto.Admin;
+import com.ty.credential_manager.dto.User;
 
 @Repository
 public class AdminDao {

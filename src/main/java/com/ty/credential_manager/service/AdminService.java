@@ -17,28 +17,28 @@ public class AdminService {
 		return admin;
 	}
 	
-	public User getUserByEmail(User user) {
-		User recievedUser = adminDao.getUserByEmail(user.getEmail());
-		if(user.getPassword().equals(recievedUser.getPassword())) {
-			return recievedUser;
+	public Admin getAdminByEmail(Admin admin) {
+		Admin recievedAdmin = adminDao.getAdminByEmail(admin.getEmail());
+		if(admin.getPassword().equals(recievedAdmin.getPassword())) {
+			return recievedAdmin;
 		}else {
 			return null;
 		}
 	}
 	
-	public List<User> getAllUser(){
-		return userDao.getAllUser();
+	public List<Admin> getAllAdmin(){
+		return adminDao.getAllAdmin();
 	}
 	
 	public boolean deleteUser(int id) {
-		return userDao.deleteUser(id);
+		return adminDao.deleteAdmin(id);
 	}
 	
-	public User getUserById(int id) {
-		return userDao.getUserById(id);
+	public Admin getUserById(int id) {
+		return adminDao.getAdminById(id);
 	}
 	
-	public User updateUser(User user) {
-		return userDao.updateUser(user);
+	public Admin updateAdmin(Admin admin) {
+		return adminDao.updateAdmin(admin);
 	}
 }
