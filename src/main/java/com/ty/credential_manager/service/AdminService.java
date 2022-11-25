@@ -5,21 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ty.credential_manager.dao.UserDao;
+import com.ty.credential_manager.dao.AdminDao;
+import com.ty.credential_manager.dto.Admin;
 import com.ty.credential_manager.dto.User;
-
 @Service
-public class UserService {
+public class AdminService {
 	@Autowired
-	UserDao userDao;
-	
-	public User saveUser(User user) {
-		userDao.saveUser(user);
-		return user;
+	AdminDao adminDao;
+	public Admin saveAdmin(Admin admin) {
+		adminDao.saveAdmin(admin);
+		return admin;
 	}
 	
 	public User getUserByEmail(User user) {
-		User recievedUser = userDao.getUserByEmail(user.getEmail());
+		User recievedUser = adminDao.getUserByEmail(user.getEmail());
 		if(user.getPassword().equals(recievedUser.getPassword())) {
 			return recievedUser;
 		}else {
