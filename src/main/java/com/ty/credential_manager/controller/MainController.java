@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ty.credential_manager.dao.AdminDao;
 import com.ty.credential_manager.dto.User;
 import com.ty.credential_manager.service.UserService;
 
@@ -25,7 +26,8 @@ import com.ty.credential_manager.service.UserService;
 public class MainController {
 
 	@Autowired
-	UserService serive;
+	UserService service;
+	
 	
 	@RequestMapping("login")
 	public ModelAndView getIndex() {
