@@ -18,6 +18,16 @@ public class UserService {
 		return user;
 	}
 	
+	public User getUserByName(User user) {
+	User receivedUserName = userDao.getUserByName(user.getUserName());
+	if(user.getPassword().equals(receivedUserName.getPassword())) {
+		return receivedUserName;
+	}else {
+		return null;
+	}
+	}
+	
+	
 	public User getUserByEmail(User user) {
 		User recievedUser = userDao.getUserByEmail(user.getEmail());
 		if(user.getPassword().equals(recievedUser.getPassword())) {

@@ -14,67 +14,99 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ty.credential_manager.dao.AdminDao;
+import com.ty.credential_manager.dto.Application;
 import com.ty.credential_manager.dto.User;
+import com.ty.credential_manager.service.AdminService;
+import com.ty.credential_manager.service.ApplicationService;
 import com.ty.credential_manager.service.UserService;
-
-
-
-
 
 @Controller
 public class MainController {
 
 	@Autowired
-	UserService service;
+	UserService userService;
+	@Autowired
+	AdminService adminService;
+	@Autowired
+	ApplicationService applicationService;
 	
-	
-	@RequestMapping("login")
-	public ModelAndView getIndex() {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("login.jsp");
-		modelAndView.addObject("user", new User());
-		return modelAndView;
-	}
-
-	@RequestMapping("signup")
+	@RequestMapping("usersignup")
 	public ModelAndView getSign() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("signup.jsp");
+		modelAndView.setViewName("usersignup.jsp");
 		modelAndView.addObject("user", new User());
 		return modelAndView;
 	}
+	@RequestMapping("saveuser")
+	public ModelAndView saveStudent(@ModelAttribute User user) {
+		userService.saveUser(user);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("application.jsp");
+		modelAndView.addObject("application", new Application());
+		return modelAndView;
+	}
 	
-//	@RequestMapping("saveuser")
-//	public ModelAndView saveStudent(@ModelAttribute User user) {
-//
-//		service.saveUser(user);
+	@RequestMapping("application")
+	public ModelAndView getApplication() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("application.jsp");
+		modelAndView.addObject("application", new Application());
+		return modelAndView;
+	}
+	
+	@RequestMapping("saveapplication")
+	public ModelAndView saveApplication(@ModelAttribute Application application) {
+		applicationService.saveApplication(application);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("userlogin.jsp");
+		modelAndView.addObject("user", new User() );
+		return modelAndView;
+		
+	}
+	
+//	@RequestMapping("userview")
+//	public ModelAndView getUser(@ModelAttribute User user) {
+//		userService.getUserByName(user);
 //		ModelAndView modelAndView = new ModelAndView();
+//		modelAndView.setViewName("userview.jsp");
 //		modelAndView.addObject("user", new User());
-//		modelAndView.setViewName("login.jsp");
 //		return modelAndView;
-//
 //	}
-//	
-//
-//	@RequestMapping("loginuser")
-//	public ModelAndView loginStudent(@ModelAttribute User user) {
-//
+	//up to userview done
+	
+//	@RequestMapping("userlogin")
+//	public ModelAndView getIndex() {
 //		ModelAndView modelAndView = new ModelAndView();
-//		User user2=service.getUserByEmail(user);
-//	
-//		if (user2!=null) {
-//			modelAndView.addObject("name",user2.getName());
-//			modelAndView.addObject("slist",service.getAllUser());
-//			modelAndView.setViewName("view.jsp");
-//
-//		} else {
-//
-//			modelAndView.setViewName("login.jsp");
-//		}
+//		modelAndView.setViewName("userlogin.jsp");
+//		modelAndView.addObject("user", new User());
 //		return modelAndView;
 //	}
-//	
+
+	
+	
+	
+
+	
+	
+
+	@RequestMapping("userlogin")
+	public ModelAndView loginStudent(@ModelAttribute User user) {
+
+		ModelAndView modelAndView = new ModelAndView();
+		User user2=userService.getUserByName(user);
+	
+		if (user2!=null) {
+			modelAndView.addObject("name",user2.getUserName());
+			modelAndView.addObject("ulist",userService.getAllUser());
+			modelAndView.setViewName("userview.jsp");
+
+		} else {
+
+			modelAndView.setViewName("userlogin.jsp");
+		}
+		return modelAndView;
+	}
+	
 //	@RequestMapping("view")
 //	public ModelAndView viewStudent()
 //	{

@@ -1,4 +1,5 @@
 package com.ty.credential_manager.dao;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -15,11 +16,10 @@ import com.ty.credential_manager.dto.User;
 @Repository
 public class UserDao {
 	@Autowired
-	EntityManagerFactory entityManagerFactory ;
+	EntityManagerFactory entityManagerFactory;
 
 	public User saveUser(User user) {
-
-		EntityManager entityManager  = entityManagerFactory.createEntityManager();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		EntityTransaction et = entityManager.getTransaction();
 
 		et.begin();
@@ -33,10 +33,10 @@ public class UserDao {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
-		entityManager.merge( user);
+		entityManager.merge(user);
 		entityTransaction.commit();
 
-		return  user;
+		return user;
 	}
 
 	public boolean deleteUser(int id) {
@@ -54,7 +54,7 @@ public class UserDao {
 
 	}
 
-	public User  getUserById(int id) {
+	public User getUserById(int id) {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		User user = entityManager.find(User.class, id);
 		if (user != null) {
@@ -64,21 +64,28 @@ public class UserDao {
 		}
 
 	}
+
 	public List<User> getAllUser() {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		Query query =entityManager.createQuery("select s from User s")	;
+		Query query = entityManager.createQuery("select s from User s");
 		List<User> users = query.getResultList();
 
 		return users;
 
 	}
+
 	public User getUserByEmail(String email) {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		Query query =entityManager.createQuery("select u from User u where u.email=?1",User.class);
-	     query.setParameter(1, email);
-	     return (User) query.getSingleResult();
-	
-	
-}}
+		Query query = entityManager.createQuery("select u from User u where u.email=?1", User.class);
+		query.setParameter(1, email);
+		return (User) query.getSingleResult();
 
-
+	}
+	
+	public User getUserByName(String userName) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		Query query = entityManager.createQuery("Select u from User u where u.userName=?1", User.class);
+		query.setParameter(1, userName);
+		return (User) query.getSingleResult();
+	}
+}
