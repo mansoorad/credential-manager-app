@@ -22,3 +22,4 @@ public class ConfigurationWebInitializer extends AbstractAnnotationConfigDispatc
 		return new String[] {"/"};
 	}
 }
+ 

@@ -20,80 +20,94 @@ import com.ty.credential_manager.service.AdminService;
 import com.ty.credential_manager.service.ApplicationService;
 import com.ty.credential_manager.service.UserService;
 
-
 @Controller
 public class MainController {
 
 	@Autowired
-	UserService uservice;
+	UserService userService;
 	@Autowired
-	AdminService aservice;
+	AdminService adminService;
 	@Autowired
-	ApplicationService apservice;
+	ApplicationService applicationService;
 	
-	@RequestMapping("login")
-	public ModelAndView getIndex() {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("login.jsp");
-		modelAndView.addObject("user", new User());
-		return modelAndView;
-	}
-
-	@RequestMapping("signup")
+	@RequestMapping("usersignup")
 	public ModelAndView getSign() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("signup.jsp");
+		modelAndView.setViewName("usersignup.jsp");
 		modelAndView.addObject("user", new User());
 		return modelAndView;
 	}
-	
 	@RequestMapping("saveuser")
-	public ModelAndView saveUser(@ModelAttribute User user) {
-
-		service.saveUser(user);
+	public ModelAndView saveStudent(@ModelAttribute User user) {
+		userService.saveUser(user);
 		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("userlogin.jsp");
 		modelAndView.addObject("user", new User());
-		modelAndView.setViewName("login.jsp");
 		return modelAndView;
-
 	}
 	
-	@RequestMapping("saveadmin")
-	public ModelAndView saveUser(@ModelAttribute Admin admin) {
-
-		service.saveUser(admin);
+//	@RequestMapping("application")
+//	public ModelAndView getApplication() {
+//		ModelAndView modelAndView = new ModelAndView();
+//		modelAndView.setViewName("application.jsp");
+//		modelAndView.addObject("application", new Application());
+//		return modelAndView;
+//	}
+	
+//	@RequestMapping("saveapplication")
+//	public ModelAndView saveApplication(@ModelAttribute Application application) {
+//		applicationService.saveApplication(application);
+//		ModelAndView modelAndView = new ModelAndView();
+//		modelAndView.setViewName("userlogin.jsp");
+//		modelAndView.addObject("user", new User() );
+//		return modelAndView;
+//		
+//	}
+	
+//	@RequestMapping("userview")
+//	public ModelAndView getUser(@ModelAttribute User user) {
+//		userService.getUserByName(user);
+//		ModelAndView modelAndView = new ModelAndView();
+//		modelAndView.setViewName("userview.jsp");
+//		modelAndView.addObject("user", new User());
+//		return modelAndView;
+//	}
+	//up to userview done
+	
+	@RequestMapping("userlogin")
+	public ModelAndView getIndex() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("admin", new Admin());
-		modelAndView.setViewName("login.jsp");
+		modelAndView.setViewName("userlogin.jsp");
+		modelAndView.addObject("user", new User());
 		return modelAndView;
-
 	}
 	
-	
-
-	@RequestMapping("loginadmin")
-	public ModelAndView loginStudent(@ModelAttribute Admin admin) {
-
+	@RequestMapping("savelogin")
+	public ModelAndView saveLogIn(@ModelAttribute User user) {
 		ModelAndView modelAndView = new ModelAndView();
-		Admin admin2=service.getAdminByEmail(admin);
-	
-		if (admin2!=null) {
-			modelAndView.addObject("name",admin2.getName());
-			modelAndView.addObject("slist",service.getAllUser());
-			modelAndView.setViewName("view.jsp");
-
-		} else {
-
-			modelAndView.setViewName("login.jsp");
+		User user2=userService.getUserByName(user);
+		if(user!=null) {
+		modelAndView.setViewName("userview");
+		}else {
+			modelAndView.setViewName("userlogin.jsp");
 		}
 		return modelAndView;
 	}
 	
+	@RequestMapping("userview")
+	public ModelAndView loginStudent() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("ulist",userService.getAllUser());
+		modelAndView.setViewName("userview.jsp");
+		return modelAndView;
+	}
+	
 	@RequestMapping("view")
-	public ModelAndView viewStudent()
+	public ModelAndView viewStudent(int id)
 	{
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("ulist",service.getAllUser());
+		User user1 = userService.getUserById(id);
+		modelAndView.addObject("user1",user1);
 		modelAndView.setViewName("view.jsp");
 		return modelAndView;
 		
@@ -103,16 +117,33 @@ public class MainController {
 	public void deleteUser(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException
 	{
 		int id=Integer.parseInt(req.getParameter("id"));
-		service.deleteStudent(id);
-		RequestDispatcher dispatcher=req.getRequestDispatcher("view");
+		userService.deleteUser(id);
+		RequestDispatcher dispatcher=req.getRequestDispatcher("userview");
 		dispatcher.forward(req, resp);
-		
-	}
+    }
 	
+//	@RequestMapping("userview")
+//	public ModelAndView viewStudent() {
+//		ModelAndView modelAndView = new ModelAndView();
+//		modelAndView.addObject("ulist", userService.getAllUser());
+//		modelAndView.setViewName("userview.jsp");
+//		return modelAndView;
+//	}
+//	
+//	@RequestMapping("delete")
+//	public void deleteUser(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException
+//	{
+//		int id=Integer.parseInt(req.getParameter("id"));
+//		userService.deleteUser(id);
+//		RequestDispatcher dispatcher=req.getRequestDispatcher("userview");
+//		dispatcher.forward(req, resp);
+//		
+//	}
+//	
 	@RequestMapping("edit")
 	public ModelAndView editStudent(@RequestParam int id) 
 	{
-		User user =service.getUserById(id);
+		User user =userService.getUserById(id);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("user", user);
 		modelAndView.setViewName("edit.jsp");
@@ -121,12 +152,12 @@ public class MainController {
 		
 	}
 	
-	@RequestMapping("updateuser")
+	@RequestMapping("updateUser")
 	public void deleteStudent(@ModelAttribute User user,HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException
 	{
 		
-		service.updateUser(user);
-		RequestDispatcher dispatcher=req.getRequestDispatcher("view");
+		userService.updateUser(user);
+		RequestDispatcher dispatcher=req.getRequestDispatcher("userview");
 		dispatcher.forward(req, resp);
 		
 	}

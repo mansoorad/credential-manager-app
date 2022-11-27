@@ -13,12 +13,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.ty.credential_manager"})
       public class Config {
-	
 	@Bean(name="emf")
 	@Scope(value="prototype")
 	public EntityManagerFactory getEntityManagerFactory()
 	{
 		return Persistence.createEntityManagerFactory("cred");
 	}
-	
 }
