@@ -26,6 +26,9 @@
     <form:label path="phone">Phone:</form:label>
    <form:input path="phone"/>
    
+    <form:label path="applicationName">Application Name:</form:label>
+   <form:input path="applicationName"/>
+   
    
    
    <input type="submit" value="signup">

@@ -39,18 +39,14 @@ public class UserDao {
 		return user;
 	}
 
-	public boolean deleteUser(int id) {
+	public User deleteUser(int id) {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		User user = entityManager.find(User.class, id);
-		if (user != null) {
 			entityTransaction.begin();
 			entityManager.remove(user);
 			entityTransaction.commit();
-			return true;
-		} else {
-			return false;
-		}
+		return user;
 
 	}
 

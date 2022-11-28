@@ -19,8 +19,25 @@ public class User {
 	private String password;
 	private String address;
 	private long phone;
+	private String applicationName;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Application> application;
+
+	public String getApplicationName() {
+		return applicationName;
+	}
+
+	public void setApplicationName(String applicationName) {
+		this.applicationName = applicationName;
+	}
+
+	public List<Application> getApplication() {
+		return application;
+	}
+
+	public void setApplication(List<Application> application) {
+		this.application = application;
+	}
 
 	public int getId() {
 		return id;
