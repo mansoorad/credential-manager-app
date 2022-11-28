@@ -9,14 +9,19 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form:form action="saveapplication" modelAttribute="application">
-	<form:label path="name">Application Name:</form:label>
-	<form:input path="name"/>
+
+	<form:form action="saveadminlogin" modelAttribute="admin">
 	
+	<form:label path="email">Email:</form:label>
+	<form:input path="email"/>
 	
+	<form:label path="password">Password:</form:label>
+	<form:input path="password"/>
 	
 	<input type="submit" value="login">
 	
 	</form:form>
+	
+	
 </body>
 </html>

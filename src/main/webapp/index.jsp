@@ -8,7 +8,7 @@
 </head>
 <body>
 	<a href="userlogin">UserLogIn</a>
-	<a href="admin">AdminLogIn</a>
+	<a href="adminlogin">AdminLogIn</a>
 	<a href="usersignup">UserSignup</a>
 	
 </body>

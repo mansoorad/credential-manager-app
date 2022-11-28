@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" isELIgnored="false"%>%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+    pageEncoding="UTF-8" isELIgnored="false"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
@@ -18,10 +18,10 @@
 <th>Delete</th>
 <th>Edit</th>
 
-<c:forEach items="${ulist}" var="user" var="application">
+<c:forEach items="${ulist}" var="user">
 <tr>
 <td>${user.id}</td>
-<td>${application.name}</td>
+<td>${user.applicationName}</td>
 <td><a href="view?id=${user.id}">view</a></td>
 <td><a href="delete?id=${user.id}">delete</a></td>
 <td><a href="edit?id=${user.id}">edit</a></td>

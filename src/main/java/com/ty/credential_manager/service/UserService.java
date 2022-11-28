@@ -41,7 +41,7 @@ public class UserService {
 		return userDao.getAllUser();
 	}
 	
-	public boolean deleteUser(int id) {
+	public User deleteUser(int id) {
 		return userDao.deleteUser(id);
 	}
 	

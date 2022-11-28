@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ty.credential_manager.dto.Admin;
 import com.ty.credential_manager.dto.Application;
 import com.ty.credential_manager.dto.User;
 import com.ty.credential_manager.service.AdminService;
@@ -41,28 +42,28 @@ public class MainController {
 	public ModelAndView saveStudent(@ModelAttribute User user) {
 		userService.saveUser(user);
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("application.jsp");
-		modelAndView.addObject("application", new Application());
-		return modelAndView;
-	}
-	
-	@RequestMapping("application")
-	public ModelAndView getApplication() {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("application.jsp");
-		modelAndView.addObject("application", new Application());
-		return modelAndView;
-	}
-	
-	@RequestMapping("saveapplication")
-	public ModelAndView saveApplication(@ModelAttribute Application application) {
-		applicationService.saveApplication(application);
-		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("userlogin.jsp");
-		modelAndView.addObject("user", new User() );
+		modelAndView.addObject("user", new User());
 		return modelAndView;
-		
 	}
+	
+//	@RequestMapping("application")
+//	public ModelAndView getApplication() {
+//		ModelAndView modelAndView = new ModelAndView();
+//		modelAndView.setViewName("application.jsp");
+//		modelAndView.addObject("application", new Application());
+//		return modelAndView;
+//	}
+	
+//	@RequestMapping("saveapplication")
+//	public ModelAndView saveApplication(@ModelAttribute Application application) {
+//		applicationService.saveApplication(application);
+//		ModelAndView modelAndView = new ModelAndView();
+//		modelAndView.setViewName("userlogin.jsp");
+//		modelAndView.addObject("user", new User() );
+//		return modelAndView;
+//		
+//	}
 	
 //	@RequestMapping("userview")
 //	public ModelAndView getUser(@ModelAttribute User user) {
@@ -74,80 +75,127 @@ public class MainController {
 //	}
 	//up to userview done
 	
-//	@RequestMapping("userlogin")
-//	public ModelAndView getIndex() {
-//		ModelAndView modelAndView = new ModelAndView();
-//		modelAndView.setViewName("userlogin.jsp");
-//		modelAndView.addObject("user", new User());
-//		return modelAndView;
-//	}
-
-	
-	
-	
-
-	
-	
-
 	@RequestMapping("userlogin")
-	public ModelAndView loginStudent(@ModelAttribute User user) {
-
+	public ModelAndView getIndex() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("userlogin.jsp");
+		modelAndView.addObject("user", new User());
+		return modelAndView;
+	}
+	
+	@RequestMapping("savelogin")
+	public ModelAndView saveLogIn(@ModelAttribute User user) {
 		ModelAndView modelAndView = new ModelAndView();
 		User user2=userService.getUserByName(user);
-	
-		if (user2!=null) {
-			modelAndView.addObject("name",user2.getUserName());
-			modelAndView.addObject("ulist",userService.getAllUser());
-			modelAndView.setViewName("userview.jsp");
-
-		} else {
-
+		if(user!=null) {
+		modelAndView.setViewName("userview");
+		}else {
 			modelAndView.setViewName("userlogin.jsp");
 		}
 		return modelAndView;
 	}
 	
-//	@RequestMapping("view")
-//	public ModelAndView viewStudent()
-//	{
+	@RequestMapping("userview")
+	public ModelAndView loginStudent() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("ulist",userService.getAllUser());
+		modelAndView.setViewName("userview.jsp");
+		return modelAndView;
+	}
+	
+	@RequestMapping("view")
+	public ModelAndView viewStudent(int id)
+	{
+		ModelAndView modelAndView = new ModelAndView();
+		User user1 = userService.getUserById(id);
+		modelAndView.addObject("user1",user1);
+		modelAndView.setViewName("view.jsp");
+		return modelAndView;
+		
+	}
+	
+	@RequestMapping("delete")
+	public void deleteUser(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException
+	{
+		int id=Integer.parseInt(req.getParameter("id"));
+		userService.deleteUser(id);
+		RequestDispatcher dispatcher=req.getRequestDispatcher("userview");
+		dispatcher.forward(req, resp);
+    }
+	
+//	@RequestMapping("userview")
+//	public ModelAndView viewStudent() {
 //		ModelAndView modelAndView = new ModelAndView();
-//		modelAndView.addObject("ulist",service.getAllUser());
-//		modelAndView.setViewName("view.jsp");
+//		modelAndView.addObject("ulist", userService.getAllUser());
+//		modelAndView.setViewName("userview.jsp");
 //		return modelAndView;
-//		
 //	}
 //	
 //	@RequestMapping("delete")
 //	public void deleteUser(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException
 //	{
 //		int id=Integer.parseInt(req.getParameter("id"));
-//		service.deleteStudent(id);
-//		RequestDispatcher dispatcher=req.getRequestDispatcher("view");
+//		userService.deleteUser(id);
+//		RequestDispatcher dispatcher=req.getRequestDispatcher("userview");
 //		dispatcher.forward(req, resp);
 //		
 //	}
 //	
-//	@RequestMapping("edit")
-//	public ModelAndView editStudent(@RequestParam int id) 
-//	{
-//		User user =service.getStudentById(id);
-//		ModelAndView modelAndView = new ModelAndView();
-//		modelAndView.addObject("user", user);
-//		modelAndView.setViewName("edit.jsp");
-//		
-//		return modelAndView;
-//		
-//	}
-//	
-//	@RequestMapping("updatestudent")
-//	public void deleteStudent(@ModelAttribute User user,HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException
-//	{
-//		
-//		service.updadteUser(user);
-//		RequestDispatcher dispatcher=req.getRequestDispatcher("view");
-//		dispatcher.forward(req, resp);
-//		
-//	}
+	@RequestMapping("edit")
+	public ModelAndView editStudent(@RequestParam int id) 
+	{
+		User user =userService.getUserById(id);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("user", user);
+		modelAndView.setViewName("edit.jsp");
+		
+		return modelAndView;
+		
+	}
+	
+	@RequestMapping("updateUser")
+	public void deleteStudent(@ModelAttribute User user,HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException
+	{
+		
+		userService.updateUser(user);
+		RequestDispatcher dispatcher=req.getRequestDispatcher("userview");
+		dispatcher.forward(req, resp);
+		
+	}
+	
+	
+	public void saveAdmin() {
+		Admin admin = new Admin();
+		admin.setName("ram");
+		admin.setEmail("ram@1");
+		admin.setPassword("123");
+		admin.setPhone(123456);
+		adminService.saveAdmin(admin);
+	}
+	
+	
+	@RequestMapping("adminlogin")
+	public ModelAndView adminLogin() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("admin.jsp");
+		modelAndView.addObject("admin", new Admin());
+		return modelAndView;
+	}
+	
+	@RequestMapping("saveadminlogin")
+	public ModelAndView saveAdminLogin(@ModelAttribute Admin admin) {
+		ModelAndView modelAndView = new ModelAndView();
+		Admin admin2 = adminService.getAdminByEmail(admin);
+		if(admin2!=null) {
+			modelAndView.setViewName("userview");
+			
+		}else {
+			modelAndView.setViewName("index.jsp");
+		}
+		return modelAndView;
+	}
+	
+	
 	
 
 

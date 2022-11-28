@@ -10,7 +10,7 @@
 </head>
 <body>
 
-	<form:form action="userlogin" modelAttribute="user">
+	<form:form action="savelogin" modelAttribute="user">
 	
 	<form:label path="userName">UserName:</form:label>
 	<form:input path="userName"/>
